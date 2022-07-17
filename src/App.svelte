@@ -1,0 +1,94 @@
+<script>
+  import Form, { FormRegister } from './lib/Form.svelte';
+  import FunLabel from './tests/FunLabel.svelte';
+
+  FormRegister.set.label('fun', FunLabel);
+
+  // formRegister.labels.foo = 'Foo';
+
+  let attributes = {
+    method: 'POST',
+    action: 'https://google.com',
+  };
+
+  let form = [
+    {
+      label: 'Dosage',
+      repeatable: true,
+      fields: [
+        {
+          label: 'Medication',
+          type: 'select',
+          name: 'medication',
+          options: ['One', 'Two', 'Three'],
+        },
+        {
+          label: 'Amount',
+          type: 'number',
+          name: 'amount',
+          placeholder: ' ',
+          required: true,
+          // if(values) {
+          //   const { medication } = values;
+          //   let [amount, units] = medication.replace(/-/g, ' ').replace(/‎,.*/, '').split(/‎\s‎/);
+          //   amount = amount.replace(/‎/, '');
+
+          //   if (amount === '0') {
+          //     this.units = units;
+          //     return true;
+          //   }
+
+          //   return false;
+          // },
+          attributes: {
+            min: 0,
+            value: 1,
+          },
+        },
+        {
+          label: 'Interval',
+          fields: [
+            {
+              label: 'Interval',
+              type: 'number',
+              name: 'interval',
+              placeholder: ' ',
+              required: true,
+              attributes: {
+                min: 0,
+                value: 1,
+              },
+            },
+            {
+              label: 'Units',
+              type: 'select',
+              name: 'units',
+              options: ['Days', 'Weeks', 'Months', 'Years'],
+              required: true,
+            },
+          ],
+        },
+      ],
+    },
+
+    {
+      label: 'Notes',
+      // _label: 'fun',
+      type: 'textarea',
+      name: 'notes',
+      validate(v, f, vs) {
+        console.log(vs);
+        if (v.includes('!')) {
+          return false;
+        }
+        return true;
+      },
+    },
+  ];
+
+  let values = {
+    notes: 'This is a test note',
+  };
+</script>
+
+<Form {attributes} {form} {values} />

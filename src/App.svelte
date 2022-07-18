@@ -76,8 +76,8 @@
       // _label: 'fun',
       type: 'textarea',
       name: 'notes',
+      repeatable: true,
       validate(v, f, vs) {
-        console.log(vs);
         if (v.includes('!')) {
           return false;
         }
@@ -87,7 +87,7 @@
   ];
 
   let values = {
-    notes: 'This is a test note',
+    'notes[0]': 'This is a test note',
   };
 </script>
 

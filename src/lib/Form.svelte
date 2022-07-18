@@ -1,6 +1,7 @@
 <script context="module">
-  import Label from './Label.svelte';
-  import Input from './fields/Input.svelte';
+  import Label from './core/Label.svelte';
+  import DefaultInput from './fields/Input.svelte';
+  import Fieldset from './core/Fieldset.svelte';
   import { get } from 'svelte/store';
 
   export const FormRegister = {
@@ -8,16 +9,22 @@
       labels: {
         default: Label,
       },
-      inputs: {
-        default: Input,
+      fields: {
+        default: DefaultInput,
+      },
+      groups: {
+        default: Fieldset,
       },
     },
     set: {
       label(name, element) {
         FormRegister._register.labels[name] = element;
       },
-      input(name, element) {
-        FormRegister._register.inputs[name] = element;
+      field(name, element) {
+        FormRegister._register.fields[name] = element;
+      },
+      group(name, element) {
+        FormRegister._register.groups[name] = element;
       },
     },
     messages: {
@@ -31,7 +38,9 @@
   import { setContext } from 'svelte';
   import { writable } from 'svelte/store';
 
-  import { extractFields } from './helpers/extractors';
+  import { extractFields, nameRegex } from './helpers/extractors';
+
+  import Input from './core/Input.svelte';
 
   export let form = [];
   export let values = {};
@@ -49,6 +58,16 @@
           state[field] = value;
           return state;
         }),
+      removeField: (field) =>
+        update((state) => {
+          delete state[field];
+          return state;
+        }),
+      batchSetFields: (values) =>
+        update((state) => {
+          Object.assign(state, values);
+          return state;
+        }),
     };
   }
 
@@ -59,12 +78,12 @@
     const validators = {};
 
     for (const [key, f] of Object.entries(fields)) {
-      validators[key] = async (value) => {
+      validators[key] = async (value, i) => {
         if (f.required && !value) {
           return FormRegister.messages.required;
         }
         if (f.validate) {
-          const valid = await f.validate(value, f, get(values));
+          const valid = await f.validate(value, f, i, get(values));
           if (typeof valid === 'string' || valid === false) {
             return valid || FormRegister.messages.invalid;
           }
@@ -77,7 +96,9 @@
     return {
       subscribe,
       check: async (field, value) => {
-        const valid = await validators[field](value);
+        const base = field.replace(/\[\d+\]$/, '');
+        const index = nameRegex({ name: base }).exec(field)[2];
+        const valid = await validators[base](value, index);
 
         return update((state) => {
           state[field] = valid;
@@ -119,10 +140,6 @@
 
 <form {...attributes} on:input={setValues} on:change={validateField}>
   <h1>Hello World</h1>
-  <svelte:component
-    this={FormRegister._register.inputs.default}
-    field={fields.notes}
-    name="notes"
-  />
+  <Input field={fields.notes} />
   <button>Hello</button>
 </form>

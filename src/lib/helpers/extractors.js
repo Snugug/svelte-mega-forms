@@ -28,20 +28,13 @@ export function extractFields(form) {
   return fields;
 }
 
-export function flattenField(field, depth = -1, holder = {}) {
+export function flattenField(field, holder = {}) {
   holder = typeof holder === 'object' ? holder : {};
   let suffix = '';
-  if (field.repeatable || depth > 0) {
-    suffix = `[${depth}]`;
-  }
 
   if (field.fields) {
-    let d = depth;
-    if (field.repeatable) {
-      d++;
-    }
     for (const subField of field.fields) {
-      flattenField(subField, d, holder);
+      flattenField(subField, holder);
     }
   } else {
     // Validate there are no duplicate field names
@@ -59,4 +52,21 @@ export function flattenField(field, depth = -1, holder = {}) {
   }
 
   return holder;
+}
+
+export function extractValues(field, values) {
+  const rxp = nameRegex(field);
+
+  return Object.entries(values)
+    .filter(([key]) => rxp.test(key))
+    .sort((a, b) => {
+      if (a[0] < b[0]) return -1;
+      if (a[0] > b[0]) return 1;
+      return 0;
+    })
+    .map(([key, value]) => value);
+}
+
+export function nameRegex(field) {
+  return new RegExp(`^${field.name}(\\[(\\d+)\\])?$`);
 }

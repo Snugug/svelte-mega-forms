@@ -1,7 +1,7 @@
 <script>
   import { getContext } from 'svelte';
-  import Label from '../Label.svelte';
-  import Message from '../Message.svelte';
+  import Label from '../core/Label.svelte';
+  import Message from '../core/Message.svelte';
 
   export let field = {};
   export let name = '';

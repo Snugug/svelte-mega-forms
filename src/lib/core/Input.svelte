@@ -3,6 +3,7 @@
   import { extractValues } from '../helpers/extractors';
 
   export let field;
+  export let name;
 
   const { elements, values } = getContext('form');
 
@@ -20,7 +21,6 @@
     return async function removing() {
       valueCount.splice(i, 1);
       let newValues = {};
-      console.log(valueCount.length);
       for (let i = 0; i < valueCount.length; i++) {
         newValues[field.name + `[${i}]`] = valueCount[i];
       }

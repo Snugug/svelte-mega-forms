@@ -70,7 +70,6 @@
         },
       ],
     },
-
     {
       label: 'Notes',
       // _label: 'fun',
@@ -83,6 +82,17 @@
         }
         return true;
       },
+    },
+    {
+      label: 'Test',
+      type: 'text',
+      name: 'test',
+    },
+    {
+      label: 'Submit',
+      type: 'submit',
+      name: 'submit',
+      value: 'Submit',
     },
   ];
 

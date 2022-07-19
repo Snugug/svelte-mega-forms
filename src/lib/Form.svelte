@@ -45,6 +45,7 @@
   export let form = [];
   export let values = {};
   export let attributes = {};
+  export let submit = (values, form) => {};
 
   // Create value store to save values across the form
   function valueStore() {
@@ -105,20 +106,52 @@
           return state;
         });
       },
+      checkAll: async (all) => {
+        const toCheck = all
+          .filter(({ name }) => {
+            const base = name.replace(/\[\d+\]$/, '');
+            if (Object.keys(validators).includes(base)) {
+              return true;
+            }
+            return false;
+          })
+          .map(async ({ name, value }) => {
+            const base = name.replace(/\[\d+\]$/, '');
+            const index = nameRegex({ name: base }).exec(name)[2];
+            return {
+              name,
+              valid: await validators[base](value, index),
+            };
+          });
+
+        const valid = await (
+          await Promise.all(toCheck)
+        ).reduce((acc, { name, valid }) => {
+          acc[name] = valid;
+          return acc;
+        }, {});
+
+        return update((state) => {
+          Object.assign(state, valid);
+          return state;
+        });
+      },
     };
   }
 
   const fields = extractFields(form);
   const vs = valueStore();
   const validation = validationStore(fields, vs);
+  const disabled = writable(false);
+  const submitting = writable(false);
 
   vs.set(values);
 
   setContext('form', {
     fields,
     values: vs,
-    disabled: false,
-    submitting: false,
+    disabled,
+    submitting,
     validation,
     elements: FormRegister._register,
   });
@@ -136,10 +169,26 @@
       validation.check(e.target.name, e.target.value);
     }
   }
+
+  async function handleSubmit(e) {
+    disabled.set(true);
+    submitting.set(true);
+
+    const allFields = [...e.target.querySelectorAll('[name]')].map((f) => ({
+      name: f.name,
+      value: f.value,
+    }));
+    await validation.checkAll(allFields);
+    const valid = Object.values($validation).every((v) => typeof v !== 'string');
+
+    if (valid) {
+      await submit($vs, e.target);
+    }
+
+    disabled.set(false);
+    submitting.set(false);
+  }
 </script>
 
-<form {...attributes} on:input={setValues} on:change={validateField}>
-  <h1>Hello World</h1>
-  <Input field={fields.notes} />
-  <button>Hello</button>
+<form {...attributes} on:input={setValues} on:submit|preventDefault={handleSubmit}>
 </form>

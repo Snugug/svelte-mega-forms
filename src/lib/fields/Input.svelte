@@ -6,7 +6,7 @@
   export let field = {};
   export let name = '';
 
-  const { values, disabled, elements } = getContext('form');
+  const { values, disabled } = getContext('form');
 
   $: value = $values[name];
 </script>
@@ -26,7 +26,7 @@
       rows="3"
       {value}
       {...field.attributes}
-      {disabled}
+      disabled={$disabled}
     />
   {:else if field.type === 'select'}
     <select {name} id={name} class="form--input form--select" bind:value {disabled}>
@@ -44,7 +44,7 @@
       type={field.type}
       {value}
       {...field.attributes}
-      {disabled}
+      disabled={$disabled}
     />
   {/if}
 

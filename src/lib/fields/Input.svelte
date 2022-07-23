@@ -8,7 +8,9 @@
 
   const { values, disabled } = getContext('form');
 
-  $: value = $values[name] || field.value || '';
+  const isButton = field.type === 'button' || field.type === 'submit';
+
+  $: value = $values[name] || field.value || (isButton && field.label ? field.label : '');
 
   // Set up options for select
   const options = (field.options || []).map((o) => {
@@ -20,7 +22,7 @@
 </script>
 
 <div class="form--group {field.half ? 'form--half' : 'form--full'} {field.group || ''}">
-  {#if field.label}
+  {#if field.label && !isButton}
     <Label {field} {name} />
   {/if}
 

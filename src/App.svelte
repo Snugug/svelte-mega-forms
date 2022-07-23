@@ -89,10 +89,10 @@
       name: 'test',
     },
     {
-      label: 'Submit',
+      label: 'Submit!',
       type: 'submit',
       name: 'submit',
-      value: 'Submit',
+      value: 'Subm',
     },
   ];
 

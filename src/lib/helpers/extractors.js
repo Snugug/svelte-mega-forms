@@ -17,8 +17,12 @@ export function extractFields(form) {
 
   // Validate fields have a label
   for (const [key, value] of Object.entries(fields)) {
+    const isButton = value.type === 'button' || value.type === 'submit';
     const hasLabel =
-      value.label || value.attributes['aria-label'] || value.attributes['aria-labelledby'];
+      value.label ||
+      (isButton && value.value) ||
+      (value.attributes && value.attributes['aria-label']) ||
+      (value.attributes && value.attributes['aria-labelledby']);
 
     if (!hasLabel) {
       throw new Error(`Field '${key}' has no label\n` + JSON.stringify(value));

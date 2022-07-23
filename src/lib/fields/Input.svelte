@@ -8,7 +8,7 @@
 
   const { values, disabled } = getContext('form');
 
-  $: value = $values[name];
+  $: value = $values[name] || field.value || '';
 
   // Set up options for select
   const options = (field.options || []).map((o) => {

@@ -55,6 +55,7 @@
       {value}
       {...field.attributes}
       disabled={$disabled}
+      on:click={isButton && field.action ? field.action : undefined}
     />
   {/if}
 

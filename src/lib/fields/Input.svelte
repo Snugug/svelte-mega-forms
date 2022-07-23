@@ -22,7 +22,7 @@
 </script>
 
 <div class="form--group {field.half ? 'form--half' : 'form--full'} {field.group || ''}">
-  {#if field.label && !isButton}
+  {#if field.label && !isButton && field.type !== 'checkbox' && field.type !== 'radio'}
     <Label {field} {name} />
   {/if}
 
@@ -44,6 +44,37 @@
         <option value={option.value}>{option.label}</option>
       {/each}
     </select>
+  {:else if field.type === 'radio'}
+    {#each field.options as option}
+      <div class="form--{field.type}">
+        <label for="{name} - {option}" class="form--label">{option}</label>
+        <input
+          class="form--input"
+          type={field.type}
+          value={option}
+          id="{name} - {option}"
+          {name}
+          checked={value === option}
+          required={field.required === true ? true : undefined}
+          {...field.attributes}
+          disabled={$disabled}
+        />
+      </div>
+    {/each}
+  {:else if field.type === 'checkbox'}
+    <div class="form--{field.type}">
+      <label for={name} class="form--label">{field.label}</label>
+      <input
+        class="form--input"
+        type={field.type}
+        id={name}
+        {name}
+        checked={value}
+        required={field.required === true ? true : undefined}
+        {...field.attributes}
+        disabled={$disabled}
+      />
+    </div>
   {:else}
     <input
       class="form--input"

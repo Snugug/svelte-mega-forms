@@ -159,7 +159,11 @@
   // Generic value setter for fields
   function setValues(e) {
     if (e?.target?.name) {
-      vs.setField(e.target.name, e.target.value);
+      if (e.target.type === 'checkbox') {
+        vs.setField(e.target.name, e.target.checked);
+      } else {
+        vs.setField(e.target.name, e.target.value);
+      }
     }
   }
 

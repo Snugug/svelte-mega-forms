@@ -94,10 +94,22 @@
       name: 'submit',
       value: 'Subm',
     },
+    {
+      label: 'Select a maintenance drone:',
+      type: 'radio',
+      name: 'drone',
+      options: ['Drone 1', 'Drone 2', 'Drone 3'],
+    },
+    {
+      label: 'Select a maintenance drone:',
+      type: 'checkbox',
+      name: 'drone2',
+    },
   ];
 
   let values = {
     'notes[0]': 'This is a test note',
+    drone: 'Drone 1',
   };
 </script>
 

@@ -1,5 +1,5 @@
 <script>
-  import { Form, FormRegister } from './index.js';
+  import Form, { FormRegister } from '../lib/Form.svelte';
   import FunLabel from './tests/FunLabel.svelte';
 
   FormRegister.set.label('fun', FunLabel);

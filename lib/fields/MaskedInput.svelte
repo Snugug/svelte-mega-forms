@@ -1,7 +1,7 @@
 <script>
   import { imask } from '@imask/svelte';
   import { getContext } from 'svelte';
-  import Message from '../Message.svelte';
+  import Message from '../core/Message.svelte';
 
   export let field = {};
   export let name = '';

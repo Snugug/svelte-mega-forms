@@ -26,7 +26,6 @@
     class="form--input"
     {name}
     id={name}
-    placeholder={field.placeholder}
     required={field.required === true ? true : undefined}
     type={field.type}
     {value}

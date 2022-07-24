@@ -46,7 +46,6 @@
       bind:this={f}
       {name}
       id={name}
-      placeholder={field.placeholder}
       required={field.required === true ? true : undefined}
       rows="3"
       {value}
@@ -105,7 +104,6 @@
       {name}
       id={name}
       bind:this={f}
-      placeholder={field.placeholder}
       required={field.required === true ? true : undefined}
       type={field.type}
       {value}

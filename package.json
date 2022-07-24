@@ -17,6 +17,7 @@
   "peerDependencies": {
     "svelte": "^3.49"
   },
+  "repository": "github:/snugug/svelte-mega-forms",
   "svelte": "./lib/Form.svelte",
   "exports": {
     ".": "./lib/Form.svelte",

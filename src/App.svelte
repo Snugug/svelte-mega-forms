@@ -15,6 +15,9 @@
     {
       label: 'Dosage',
       repeatable: true,
+      if(values) {
+        return values.test.includes('!');
+      },
       fields: [
         {
           label: 'Medication',
@@ -92,6 +95,14 @@
       label: 'Test',
       type: 'text',
       name: 'test',
+    },
+    {
+      label: 'If test',
+      type: 'text',
+      name: 'test2',
+      if(values) {
+        return values.test.includes('!');
+      },
     },
     {
       label: 'Submit!',

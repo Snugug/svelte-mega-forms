@@ -42,41 +42,28 @@
   }
 </script>
 
-{#if field.repeatable}
-  <div class="form--repeatable form--group">
-    {#each Array(valueCount[0].length) as _, i}
-      <svelte:component this={group} {field} index={i} />
-      <div class="form--repeatable-actions">
-        {#if i > 0 || valueCount[0].length > 1}
-          <button
-            class="form--remove-repeatable form--repeatable-action"
-            on:click|preventDefault={removeValue(i)}>-</button
-          >
-        {/if}
-        {#if i === valueCount[0].length - 1}
-          <button
-            class="form--add-repeatable form--repeatable-action"
-            on:click|preventDefault={addValue(i + 1)}>+</button
-          >
-        {/if}
-      </div>
-    {/each}
-    <!-- <svelte:component this={group} {field} />
-    <div class="form--repeatable-actions">
-      {#if i > 0 || valueCount.length > 1}
-        <button
-          class="form--remove-repeatable form--repeatable-action"
-          on:click|preventDefault={removeValue(i)}>-</button
-        >
-      {/if}
-      {#if i === valueCount.length - 1}
-        <button
-          class="form--add-repeatable form--repeatable-action"
-          on:click|preventDefault={addValue(i + 1)}>+</button
-        >
-      {/if}
-    </div> -->
-  </div>
-{:else}
-  <svelte:component this={group} {field} {index} />
+{#if !field.if || field.if($values)}
+  {#if field.repeatable}
+    <div class="form--repeatable form--group">
+      {#each Array(valueCount[0].length) as _, i}
+        <svelte:component this={group} {field} index={i} />
+        <div class="form--repeatable-actions">
+          {#if i > 0 || valueCount[0].length > 1}
+            <button
+              class="form--remove-repeatable form--repeatable-action"
+              on:click|preventDefault={removeValue(i)}>-</button
+            >
+          {/if}
+          {#if i === valueCount[0].length - 1}
+            <button
+              class="form--add-repeatable form--repeatable-action"
+              on:click|preventDefault={addValue(i + 1)}>+</button
+            >
+          {/if}
+        </div>
+      {/each}
+    </div>
+  {:else}
+    <svelte:component this={group} {field} {index} />
+  {/if}
 {/if}

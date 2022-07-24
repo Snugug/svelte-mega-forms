@@ -17,8 +17,13 @@
   "peerDependencies": {
     "svelte": "^3.49"
   },
-  "main": "./lib/Form.svelte",
+  "svelte": "./lib/Form.svelte",
   "exports": {
-    "default": "./lib/"
+    ".": "./lib/Form.svelte",
+    "./": "./lib/",
+    "./Message.svelte": "./lib/core/Message.svelte",
+    "./Group.svelte": "./lib/core/Group.svelte",
+    "./Input.svelte": "./lib/core/Input.svelte",
+    "./Label.svelte": "./lib/core/Label.svelte"
   }
 }

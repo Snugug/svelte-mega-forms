@@ -67,14 +67,14 @@
       {/each}
     </select>
   {:else if field.type === 'radio'}
-    {#each field.options as option}
+    {#each options as option}
       <div class="form--{field.type}">
-        <label for="{name} - {option}" class="form--label">{option}</label>
+        <label for="{name} - {option.value}" class="form--label">{option.label}</label>
         <input
           class="form--input"
           type={field.type}
-          value={option}
-          id="{name} - {option}"
+          value={option.value}
+          id="{name} - {option.value}"
           {name}
           bind:this={f}
           checked={value === option}

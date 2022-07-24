@@ -58,6 +58,51 @@ export function flattenField(field, holder = {}) {
   return holder;
 }
 
+export function buildDefaultValues(form) {
+  const values = [];
+  for (const field of form) {
+    values.push(flattenValues(field));
+  }
+
+  return values.flat().reduce((acc, cur) => {
+    for (const [key, value] of Object.entries(cur)) {
+      if (!acc[key]) {
+        acc[key] = value;
+      } else {
+        // Validate there are no duplicate field names
+        throw new Error(`Field '${key}' already exists\n` + JSON.stringify(value));
+      }
+    }
+    return acc;
+  }, {});
+}
+
+export function flattenValues(field, repeated = false, holder = {}) {
+  if (field.repeatable && repeated) {
+    throw new Error(`Repeatable fields can't be nested`);
+  }
+
+  // If the field is repeatable and not a group, add it to the holder
+  if ((field.repeatable && !field.fields) || (repeated && !field.fields)) {
+    holder[field.name + '[0]'] = '';
+    // If the field is a group and it's repeatable, loop through the fields
+  } else if (field.repeatable && field.fields) {
+    for (let i = 0; i < field.fields.length; i++) {
+      flattenValues(field.fields[i], true, holder);
+    }
+    // If the field is a group and not repeatable, loop through the fields
+  } else if (field.fields) {
+    for (let i = 0; i < field.fields.length; i++) {
+      flattenValues(field.fields[i], true, holder);
+    }
+    // If the field is not repeatable, add it to the holder
+  } else {
+    holder[field.name] = '';
+  }
+
+  return holder;
+}
+
 export function extractValues(field, values) {
   const rxp = nameRegex(field);
 

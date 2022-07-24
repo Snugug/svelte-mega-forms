@@ -12,6 +12,20 @@
 
   $: value = $values[name] || field.value || (isButton && field.label ? field.label : '');
 
+  let f;
+
+  $: {
+    if (f) {
+      if (f.type === 'checkbox') {
+        f.checked = value;
+      } else if (f.type === 'radio') {
+        f.checked = f.value === value;
+      } else {
+        f.value = value;
+      }
+    }
+  }
+
   // Set up options for select
   const options = (field.options || []).map((o) => {
     if (o?.label && o?.value) return o;
@@ -29,6 +43,7 @@
   {#if field.type === 'textarea'}
     <textarea
       class="form--input"
+      bind:this={f}
       {name}
       id={name}
       placeholder={field.placeholder}
@@ -39,7 +54,14 @@
       disabled={$disabled}
     />
   {:else if field.type === 'select'}
-    <select {name} id={name} class="form--input form--select" bind:value disabled={$disabled}>
+    <select
+      {name}
+      id={name}
+      class="form--input form--select"
+      bind:value
+      disabled={$disabled}
+      bind:this={f}
+    >
       {#each options as option}
         <option value={option.value}>{option.label}</option>
       {/each}
@@ -54,6 +76,7 @@
           value={option}
           id="{name} - {option}"
           {name}
+          bind:this={f}
           checked={value === option}
           required={field.required === true ? true : undefined}
           {...field.attributes}
@@ -69,6 +92,7 @@
         type={field.type}
         id={name}
         {name}
+        bind:this={f}
         checked={value}
         required={field.required === true ? true : undefined}
         {...field.attributes}
@@ -80,6 +104,7 @@
       class="form--input"
       {name}
       id={name}
+      bind:this={f}
       placeholder={field.placeholder}
       required={field.required === true ? true : undefined}
       type={field.type}

@@ -23,6 +23,12 @@
           options: ['One', 'Two', 'Three'],
         },
         {
+          label: 'Notes',
+          // _label: 'fun',
+          type: 'textarea',
+          name: 'notes2',
+        },
+        {
           label: 'Amount',
           type: 'number',
           name: 'amount',
@@ -49,22 +55,15 @@
           label: 'Interval',
           fields: [
             {
-              label: 'Interval',
-              type: 'number',
-              name: 'interval',
-              placeholder: ' ',
-              required: true,
-              attributes: {
-                min: 0,
-                value: 1,
-              },
+              label: 'Select a maintenance drone:',
+              type: 'radio',
+              name: 'drone5',
+              options: ['Drone 1', 'Drone 2', 'Drone 3'],
             },
             {
-              label: 'Units',
-              type: 'select',
-              name: 'units',
-              options: ['Days', 'Weeks', 'Months', 'Years'],
-              required: true,
+              label: 'Select a maintenance drone:',
+              type: 'checkbox',
+              name: 'drone7',
             },
           ],
         },
@@ -82,6 +81,12 @@
         }
         return true;
       },
+    },
+    {
+      label: 'Number',
+      name: 'number',
+      type: 'number',
+      repeatable: true,
     },
     {
       label: 'Test',
@@ -109,7 +114,8 @@
 
   let values = {
     'notes[0]': 'This is a test note',
-    drone: 'Drone 1',
+    'amount[0]': 3,
+    drone: 'Drone 2',
   };
 </script>
 

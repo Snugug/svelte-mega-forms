@@ -1,16 +1,18 @@
 <script>
-  import Input from './Input.svelte';
+  import Group from '../core/Group.svelte';
+  import Input from '../core/Input.svelte';
+
   export let field;
-  export let index = null;
+  export let index;
 </script>
 
 <fieldset class="form--fieldset form--group">
   <legend class="form--legend">{field.label}</legend>
   {#each field.fields as f}
     {#if f.fields}
-      <svelte:self field={f} />
+      <Group field={f} {index} />
     {:else}
-      <Input field={f} name={index >= 0 ? field.name + `[${index}]` : field.name} />
+      <Input field={f} {index} />
     {/if}
   {/each}
 </fieldset>

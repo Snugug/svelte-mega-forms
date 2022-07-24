@@ -3,7 +3,9 @@
   import { extractValues } from '../helpers/extractors';
 
   export let field;
-  export let name;
+  export let index = null;
+
+  const name = index !== null ? `${field.name}[${index}]` : field.name;
 
   const { elements, values } = getContext('form');
 
@@ -19,12 +21,13 @@
 
   function removeValue(i) {
     return async function removing() {
-      valueCount.splice(i, 1);
+      let current = structuredClone(valueCount);
+      current.splice(i, 1);
       let newValues = {};
-      for (let i = 0; i < valueCount.length; i++) {
-        newValues[field.name + `[${i}]`] = valueCount[i];
+      for (let i = 0; i < current.length; i++) {
+        newValues[field.name + `[${i}]`] = current[i];
       }
-      values.removeField(field.name + `[${valueCount.length}]`);
+      values.removeField(field.name + `[${current.length}]`);
       await tick();
       values.batchSetFields(newValues);
     };
@@ -56,5 +59,5 @@
     {/each}
   </div>
 {:else}
-  <svelte:component this={input} {field} name={field.name} />
+  <svelte:component this={input} {field} {name} />
 {/if}

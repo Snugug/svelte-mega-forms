@@ -1,7 +1,7 @@
 <script context="module">
   import Label from './core/Label.svelte';
   import DefaultInput from './fields/Input.svelte';
-  import Fieldset from './core/Fieldset.svelte';
+  import Fieldset from './fields/Fieldset.svelte';
   import { get } from 'svelte/store';
 
   export const FormRegister = {
@@ -38,9 +38,10 @@
   import { setContext } from 'svelte';
   import { writable } from 'svelte/store';
 
-  import { extractFields, nameRegex } from './helpers/extractors';
+  import { extractFields, nameRegex, buildDefaultValues } from './helpers/extractors';
 
   import Input from './core/Input.svelte';
+  import Group from './core/Group.svelte';
 
   export let form = [];
   export let values = {};
@@ -48,8 +49,8 @@
   export let submit = (values, form) => {};
 
   // Create value store to save values across the form
-  function valueStore() {
-    const { subscribe, set, update } = writable({});
+  function valueStore(form) {
+    const { subscribe, set, update } = writable(buildDefaultValues(form));
 
     return {
       subscribe,
@@ -140,12 +141,12 @@
   }
 
   const fields = extractFields(form);
-  const vs = valueStore();
+  const vs = valueStore(form);
   const validation = validationStore(fields, vs);
   const disabled = writable(false);
   const submitting = writable(false);
 
-  vs.set(values);
+  vs.batchSetFields(values);
 
   setContext('form', {
     fields,
@@ -197,7 +198,7 @@
 <form {...attributes} on:input={setValues} on:submit|preventDefault={handleSubmit}>
   {#each form as f}
     {#if f.fields}
-      <Fieldset field={f} />
+      <Group field={f} />
     {:else}
       <Input field={f} />
     {/if}

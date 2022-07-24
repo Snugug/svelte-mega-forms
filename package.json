@@ -25,5 +25,6 @@
     "./Group.svelte": "./lib/core/Group.svelte",
     "./Input.svelte": "./lib/core/Input.svelte",
     "./Label.svelte": "./lib/core/Label.svelte"
-  }
+  },
+  "license": "MIT"
 }

@@ -9,6 +9,10 @@
   const { values, disabled } = getContext('form');
 
   $: value = $values[name];
+
+  $: {
+    field.value = value;
+  }
 </script>
 
 <div class="form--group {field.half ? 'form--half' : 'form--full'} {field.group || ''}">

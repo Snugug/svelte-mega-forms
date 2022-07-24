@@ -35,7 +35,6 @@
           label: 'Amount',
           type: 'number',
           name: 'amount',
-          placeholder: ' ',
           required: true,
           // if(values) {
           //   const { medication } = values;
@@ -49,9 +48,10 @@
 
           //   return false;
           // },
+          value: 1,
           attributes: {
+            placeholder: ' ',
             min: 0,
-            value: 1,
           },
         },
         {

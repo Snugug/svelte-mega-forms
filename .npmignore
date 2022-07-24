@@ -1,0 +1,7 @@
+index.html
+jsconfig.json
+.*
+public
+site
+dist
+vite.config.js

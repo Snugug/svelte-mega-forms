@@ -9,7 +9,7 @@
       labels: {
         default: Label,
       },
-      fields: {
+      inputs: {
         default: DefaultInput,
       },
       groups: {
@@ -20,8 +20,8 @@
       label(name, element) {
         FormRegister._register.labels[name] = element;
       },
-      field(name, element) {
-        FormRegister._register.fields[name] = element;
+      input(name, element) {
+        FormRegister._register.inputs[name] = element;
       },
       group(name, element) {
         FormRegister._register.groups[name] = element;

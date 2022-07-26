@@ -63,7 +63,7 @@ You can register additional components to be used in the form, as well as defaul
   import CustomInput from './lib/CustomInput.svelte';
 
   FormRegister.set.label('custom-label', FunLabel);
-  FormRegister.set.field('custom-input', CustomInput);
+  FormRegister.set.input('custom-input', CustomInput);
 
   FormRegister.messages.invalid = 'Oops! Try again!';
 
@@ -93,7 +93,7 @@ Svelte Mega Form comes with an optional custom form, Masked Input, that uses [im
   import Form, {FormRegister} from 'svelte-mega-forms';
   import MaskedInput from 'svelte-mega-forms/fields/MaskedInput.svelte';
 
-  FormRegister.set.label('masked', MaskedInput);
+  FormRegister.set.input('masked', MaskedInput);
 
   const form = [
     {

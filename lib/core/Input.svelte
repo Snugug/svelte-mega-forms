@@ -11,7 +11,7 @@
 
   $: valueCount = extractValues(field, $values);
 
-  const input = elements.fields[field.type] || elements.fields.default;
+  const input = elements.inputs[field.type] || elements.inputs.default;
 
   function addValue(i) {
     return function adding() {

@@ -187,6 +187,10 @@
         vs.setField(e.target.name, e.target.value);
       }
     }
+
+    if (e?.target?.dataset?.touched && e.target.dataset.touched === 'false') {
+      e.target.dataset.touched = 'true';
+    }
   }
 
   // Generic validator for fields

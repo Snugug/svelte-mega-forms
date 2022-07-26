@@ -32,6 +32,16 @@
       values.batchSetFields(newValues);
     };
   }
+
+  if (!field.fields) {
+    if (!field.attributes) {
+      field.attributes = {};
+    }
+
+    if (!field.attributes['data-touched']) {
+      field.attributes['data-touched'] = false;
+    }
+  }
 </script>
 
 {#if !field.if || field.if($values)}

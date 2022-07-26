@@ -101,7 +101,14 @@
       check: async (field, value) => {
         const base = field.replace(/\[\d+\]$/, '');
         const index = nameRegex({ name: base }).exec(field)[2];
-        const valid = await validators[base](value, index);
+
+        let valid;
+
+        if (Object.keys(validators).includes(base)) {
+          valid = await validators[base](value, index);
+        } else {
+          valid = true;
+        }
 
         return update((state) => {
           state[field] = valid;

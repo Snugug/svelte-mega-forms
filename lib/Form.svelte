@@ -76,7 +76,12 @@
 
   // Creates a validation store for form fields
   function validationStore(fields, values) {
-    const { subscribe, update } = writable(Object.keys(fields));
+    const { subscribe, update } = writable(
+      Object.keys(fields).reduce((acc, field) => {
+        acc[field] = false;
+        return acc;
+      }, {}),
+    );
 
     const validators = {};
 

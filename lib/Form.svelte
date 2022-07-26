@@ -47,6 +47,7 @@
   export let values = {};
   export let attributes = {};
   export let submit = (values, form) => {};
+  export let disabled = false;
 
   // Create value store to save values across the form
   function valueStore(form) {
@@ -143,7 +144,7 @@
   const fields = extractFields(form);
   const vs = valueStore(form);
   const validation = validationStore(fields, vs);
-  const disabled = writable(false);
+  const dis = writable(false);
   const submitting = writable(false);
 
   vs.batchSetFields(values);
@@ -151,11 +152,16 @@
   setContext('form', {
     fields,
     values: vs,
-    disabled,
+    disabled: dis,
     submitting,
     validation,
     elements: FormRegister._register,
   });
+
+  // Set disabled state when stuff changes
+  $: {
+    dis.set(disabled);
+  }
 
   // Generic value setter for fields
   function setValues(e) {
@@ -175,8 +181,9 @@
     }
   }
 
+  // Handle submit event
   async function handleSubmit(e) {
-    disabled.set(true);
+    dis.set(true);
     submitting.set(true);
 
     const allFields = [...e.target.querySelectorAll('[name]')].map((f) => ({
@@ -190,7 +197,7 @@
       await submit($vs, e.target);
     }
 
-    disabled.set(false);
+    dis.set(false);
     submitting.set(false);
   }
 </script>

@@ -209,7 +209,13 @@
   }
 </script>
 
-<form {...attributes} on:input={setValues} on:submit|preventDefault={handleSubmit}>
+<form
+  class="form"
+  {...attributes}
+  on:input={setValues}
+  on:change={validateField}
+  on:submit|preventDefault={handleSubmit}
+>
   {#each form as f}
     {#if f.fields}
       <Group field={f} />

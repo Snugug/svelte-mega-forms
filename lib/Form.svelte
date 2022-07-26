@@ -159,7 +159,10 @@
   const dis = writable(false);
   const submitting = writable(false);
 
-  vs.batchSetFields(values);
+  // Set values when they change
+  $: {
+    vs.batchSetFields(values);
+  }
 
   setContext('form', {
     fields,

@@ -4,7 +4,7 @@
   export let field;
   export let index = null;
 
-  const { elements, values } = getContext('form');
+  const { elements, values, repeatables } = getContext('form');
 
   const group = elements.groups[field._group] || elements.groups.default;
 
@@ -51,13 +51,19 @@
           {#if i > 0 || valueCount[0].length > 1}
             <button
               class="form--remove-repeatable form--repeatable-action"
-              on:click|preventDefault={removeValue(i)}>-</button
+              on:click|preventDefault={removeValue(i)}
+              aria-label={repeatables.remove.label}
+              >{#if repeatables.remove.html}{@html repeatables.remove.content}{:else}{repeatables
+                  .remove.content}{/if}</button
             >
           {/if}
           {#if i === valueCount[0].length - 1}
             <button
               class="form--add-repeatable form--repeatable-action"
-              on:click|preventDefault={addValue(i + 1)}>+</button
+              on:click|preventDefault={addValue(i + 1)}
+              aria-label={repeatables.add.label}
+              >{#if repeatables.add.html}{@html repeatables.add.content}{:else}{repeatables.add
+                  .content}{/if}</button
             >
           {/if}
         </div>

@@ -31,6 +31,18 @@
       required: 'This field is required',
       invalid: 'This field is invalid',
     },
+    repeatables: {
+      add: {
+        label: 'Add item',
+        content: '+',
+        html: false,
+      },
+      remove: {
+        label: 'Remove item',
+        content: '-',
+        html: false,
+      },
+    },
   };
 </script>
 
@@ -171,6 +183,7 @@
     submitting,
     validation,
     elements: FormRegister._register,
+    repeatables: FormRegister.repeatables,
   });
 
   // Set disabled state when stuff changes

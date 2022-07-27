@@ -1,6 +1,7 @@
 <script>
   import { imask } from '@imask/svelte';
   import { getContext } from 'svelte';
+  import Label from '../core/Label.svelte';
   import Message from '../core/Message.svelte';
 
   export let field = {};
@@ -16,15 +17,7 @@
 </script>
 
 <div class="form--group {field.half ? 'form--half' : 'form--full'} {field.group || ''}">
-  {#if field.label}
-    <label
-      for={name}
-      class="form--label"
-      data-required={field.required === true ? true : undefined}
-    >
-      {field.label}
-    </label>
-  {/if}
+  <Label {field} {name} />
 
   <input
     class="form--input"

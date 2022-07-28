@@ -44,10 +44,10 @@
   }
 </script>
 
-{#if !field.if || field.if($values)}
-  {#if field.repeatable}
-    <div class="form--repeatable form--group">
-      {#each Array(valueCount.length) as _, i}
+{#if field.repeatable}
+  <div class="form--repeatable form--group">
+    {#each Array(valueCount.length) as _, i}
+      {#if !field.if || field.if($values, field.name + `[${i}]`)}
         <svelte:component this={input} {field} name={field.name + `[${i}]`} />
         <div class="form--repeatable-actions">
           {#if i > 0 || valueCount.length > 1}
@@ -69,9 +69,9 @@
             >
           {/if}
         </div>
-      {/each}
-    </div>
-  {:else}
-    <svelte:component this={input} {field} {name} />
-  {/if}
+      {/if}
+    {/each}
+  </div>
+{:else if !field.if || field.if($values, name)}
+  <svelte:component this={input} {field} {name} />
 {/if}

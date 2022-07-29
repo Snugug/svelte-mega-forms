@@ -28,7 +28,7 @@
     {value}
     use:imask={field.mask}
     {...field.attributes}
-    {disabled}
+    disabled={$disabled}
   />
 
   <Message {field} {name} />

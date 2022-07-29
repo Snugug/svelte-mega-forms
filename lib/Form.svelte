@@ -1,5 +1,6 @@
 <script context="module">
   import Label from './core/Label.svelte';
+  import Message from './core/Message.svelte';
   import DefaultInput from './fields/Input.svelte';
   import Fieldset from './fields/Fieldset.svelte';
   import { get } from 'svelte/store';
@@ -15,6 +16,9 @@
       groups: {
         default: Fieldset,
       },
+      messages: {
+        default: Message,
+      },
     },
     set: {
       label(name, element) {
@@ -25,6 +29,9 @@
       },
       group(name, element) {
         FormRegister._register.groups[name] = element;
+      },
+      Message(name, element) {
+        FormRegister._register.messages[name] = element;
       },
     },
     messages: {

@@ -31,5 +31,5 @@
     {disabled}
   />
 
-  <Message {name} />
+  <Message {field} {name} />
 </div>

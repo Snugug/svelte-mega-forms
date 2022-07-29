@@ -113,5 +113,5 @@
     />
   {/if}
 
-  <Message {name} />
+  <Message {field} {name} />
 </div>

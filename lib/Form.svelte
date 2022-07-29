@@ -225,10 +225,11 @@
     dis.set(true);
     submitting.set(true);
 
-    const allFields = [...e.target.querySelectorAll('[name]')].map((f) => ({
-      name: f.name,
-      value: f.value,
+    const allFields = Object.entries($vs).map(([name, value]) => ({
+      name,
+      value,
     }));
+
     await validation.checkAll(allFields);
     const valid = Object.values($validation).every((v) => typeof v !== 'string');
 

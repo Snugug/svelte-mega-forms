@@ -154,7 +154,7 @@
             const index = nameRegex({ name: base }).exec(name)[2];
             return {
               name,
-              valid: await validators[base](value, index, field),
+              valid: await validators[base](value, index, name),
             };
           });
 

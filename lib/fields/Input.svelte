@@ -2,6 +2,7 @@
   import { getContext } from 'svelte';
   import Label from '../core/Label.svelte';
   import Message from '../core/Message.svelte';
+  import { isRequired } from '../helpers/fields';
 
   export let field = {};
   export let name = '';
@@ -33,11 +34,13 @@
     if (o?.value) return { value: o.value, label: o.value };
     return { value: o, label: o };
   });
+
+  $: required = isRequired(field, $values, name);
 </script>
 
 <div class="form--group {field.half ? 'form--half' : 'form--full'} {field.group || ''}">
   {#if field.label && !isButton && field.type !== 'checkbox' && field.type !== 'radio'}
-    <Label {field} {name} />
+    <Label {field} {name} {required} />
   {/if}
 
   {#if field.type === 'textarea'}
@@ -46,7 +49,7 @@
       bind:this={f}
       {name}
       id={name}
-      required={field.required === true ? true : undefined}
+      {required}
       rows="3"
       {value}
       {...field.attributes}
@@ -77,7 +80,7 @@
           {name}
           bind:this={f}
           checked={value === option}
-          required={field.required === true ? true : undefined}
+          {required}
           {...field.attributes}
           disabled={$disabled}
         />
@@ -93,7 +96,7 @@
         {name}
         bind:this={f}
         checked={value}
-        required={field.required === true ? true : undefined}
+        {required}
         {...field.attributes}
         disabled={$disabled}
       />
@@ -104,7 +107,7 @@
       {name}
       id={name}
       bind:this={f}
-      required={field.required === true ? true : undefined}
+      {required}
       type={field.type}
       {value}
       {...field.attributes}

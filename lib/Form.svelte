@@ -58,6 +58,7 @@
   import { writable } from 'svelte/store';
 
   import { extractFields, nameRegex, buildDefaultValues } from './helpers/extractors';
+  import { isRequired } from './helpers/fields';
 
   import Input from './core/Input.svelte';
   import Group from './core/Group.svelte';
@@ -105,8 +106,8 @@
     const validators = {};
 
     for (const [key, f] of Object.entries(fields)) {
-      validators[key] = async (value, i) => {
-        if (f.required && !value) {
+      validators[key] = async (value, i, name) => {
+        if (isRequired(f, get(values), name) && !value) {
           return FormRegister.messages.required;
         }
         if (f.validate) {
@@ -129,7 +130,7 @@
         let valid;
 
         if (Object.keys(validators).includes(base)) {
-          valid = await validators[base](value, index);
+          valid = await validators[base](value, index, field);
         } else {
           valid = true;
         }
@@ -153,7 +154,7 @@
             const index = nameRegex({ name: base }).exec(name)[2];
             return {
               name,
-              valid: await validators[base](value, index),
+              valid: await validators[base](value, index, field),
             };
           });
 

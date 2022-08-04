@@ -3,7 +3,7 @@
   import { getContext } from 'svelte';
   import Label from '../core/Label.svelte';
   import Message from '../core/Message.svelte';
-  import { isRequired } from '../helpers/fields';
+  import { isRequired, setDefaultValue } from '../helpers/fields';
 
   export let field = {};
   export let name = '';
@@ -11,9 +11,7 @@
   const { values, disabled } = getContext('form');
 
   // Set default value
-  if ($values[name] === '' && field.value) {
-    values.setField(name, field.value);
-  }
+  setDefaultValue(field, values, name);
 
   // Determine if it's required
   $: required = isRequired(field, $values, name);

@@ -79,7 +79,7 @@
           id="{name} - {option.value}"
           {name}
           bind:this={f}
-          checked={value === option}
+          checked={value === option.value}
           {required}
           {...field.attributes}
           disabled={$disabled}

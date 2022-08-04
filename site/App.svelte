@@ -77,6 +77,7 @@
       // _label: 'fun',
       type: 'textarea',
       name: 'notes',
+      value: 'Hello',
       repeatable: true,
       validate(v, f, vs) {
         if (v.includes('!')) {

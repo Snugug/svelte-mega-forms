@@ -10,13 +10,21 @@
 
   const { values, disabled } = getContext('form');
 
+  // Set default value
+  if ($values[name] === '' && field.value) {
+    values.setField(name, field.value);
+  }
+
+  // Determine if it's required
+  $: required = isRequired(field, $values, name);
+
+  // Set up reactive value
   $: value = $values[name];
 
+  // Update visible value when value changes
   $: {
     field.value = value;
   }
-
-  $: required = isRequired(field, $values, name);
 </script>
 
 <div class="form--group {field.half ? 'form--half' : 'form--full'} {field.group || ''}">

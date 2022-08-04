@@ -9,10 +9,21 @@
 
   const { values, disabled } = getContext('form');
 
+  // Set default value
+  if ($values[name] === '' && field.value) {
+    values.setField(name, field.value);
+  }
+
+  // Determine if it's required
+  $: required = isRequired(field, $values, name);
+
+  // Determine if it's a button
   const isButton = field.type === 'button' || field.type === 'submit';
 
-  $: value = $values[name] || field.value || (isButton && field.label ? field.label : '');
+  // Set up reactive values
+  $: value = $values[name] || (isButton && field.label ? field.label : '');
 
+  // Update visible value when value changes
   let f;
 
   $: {
@@ -34,8 +45,6 @@
     if (o?.value) return { value: o.value, label: o.value };
     return { value: o, label: o };
   });
-
-  $: required = isRequired(field, $values, name);
 </script>
 
 <div class="form--group {field.half ? 'form--half' : 'form--full'} {field.group || ''}">

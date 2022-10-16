@@ -2,7 +2,7 @@
   import { getContext } from 'svelte';
   import Label from '../core/Label.svelte';
   import Message from '../core/Message.svelte';
-  import { isRequired, setDefaultValue } from '../helpers/fields';
+  import { isRequired, setDefaultValue, fieldOptions } from '../helpers/fields';
 
   export let field = {};
   export let name = '';
@@ -14,6 +14,8 @@
 
   // Determine if it's required
   $: required = isRequired(field, $values, name);
+  // Determine options
+  $: options = fieldOptions(field, $values, name);
 
   // Determine if it's a button
   const isButton = field.type === 'button' || field.type === 'submit';
@@ -35,14 +37,6 @@
       }
     }
   }
-
-  // Set up options for select
-  const options = (field.options || []).map((o) => {
-    if (o?.label && o?.value) return o;
-    if (o?.label) return { value: o.label, label: o.label };
-    if (o?.value) return { value: o.value, label: o.value };
-    return { value: o, label: o };
-  });
 </script>
 
 <div class="form--group {field.half ? 'form--half' : 'form--full'} {field.group || ''}">

@@ -115,7 +115,11 @@
       label: 'Select a maintenance drone:',
       type: 'radio',
       name: 'drone',
-      options: ['Drone 1', 'Drone 2', 'Drone 3'],
+      options(values, name) {
+        console.log(values);
+        console.log(name);
+        return ['one', 'two', 'three'];
+      },
     },
     {
       label: 'Select a maintenance drone:',

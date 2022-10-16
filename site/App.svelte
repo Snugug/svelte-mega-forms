@@ -126,6 +126,24 @@
       type: 'checkbox',
       name: 'drone2',
     },
+    {
+      label: 'A Group',
+      fields: [
+        {
+          label: 'Radios in a group:',
+          type: 'radio',
+          name: 'drone3',
+          required: true,
+          options: ['Drone 1', 'Drone 2', 'Drone 3'],
+        },
+        {
+          label: 'A group checkbox:',
+          type: 'checkbox',
+          required: true,
+          name: 'drone4',
+        },
+      ],
+    },
   ];
 
   let values = {
